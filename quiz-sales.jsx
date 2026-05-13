@@ -26,24 +26,11 @@ function OfferScreen({ onClaim, onSeeSales }) {
         </p>
 
         {/* Video block */}
-        <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--ink-200)' }}>
-          <ImgPlaceholder label="vídeo vertical · depoimento" ratio="9/14" style={{ borderRadius: 0, border: 0 }} />
-          <div style={{
-            position: 'absolute', inset: 0, display: 'grid', placeItems: 'center',
-            background: 'linear-gradient(0deg, rgba(15,23,42,0.45), rgba(15,23,42,0.05))',
-          }}>
-            <button style={{
-              width: 64, height: 64, borderRadius: 999, background: 'white',
-              display: 'grid', placeItems: 'center', boxShadow: '0 10px 30px rgba(0,0,0,.25)',
-            }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--green-600)"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-          </div>
-          <div style={{ position: 'absolute', left: 12, bottom: 12, color: 'white' }}>
-            <div style={{ fontSize: 13, fontWeight: 700 }}>Depoimento Cachos Ledebut #087</div>
-            <div style={{ fontSize: 11, opacity: 0.85 }}>Rafael Andrade · Cliente verificado ✓</div>
-          </div>
-        </div>
+        <VideoBlock
+          src="public/video1.mp4"
+          overlayText="Depoimento Cachos Ledebut #087"
+          overlaySub="Rafael Andrade · Cliente verificado ✓"
+        />
 
         {/* Timer card */}
         <div style={{
@@ -124,19 +111,8 @@ function SalesPage({ onBack, onCheckout }) {
 
       {/* SEÇÃO 1: Chamada principal */}
       <div style={{ padding: '20px 20px 24px' }}>
-        <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--ink-200)', marginBottom: 18 }}>
-          <ImgPlaceholder label="vídeo vertical · cliente mostrando resultado" ratio="9/14" style={{ borderRadius: 0, border: 0 }} />
-          <div style={{
-            position: 'absolute', inset: 0, display: 'grid', placeItems: 'center',
-            background: 'linear-gradient(0deg, rgba(15,23,42,0.45), rgba(15,23,42,0.05))',
-          }}>
-            <button style={{
-              width: 64, height: 64, borderRadius: 999, background: 'white',
-              display: 'grid', placeItems: 'center', boxShadow: '0 10px 30px rgba(0,0,0,.25)',
-            }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--green-600)"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-          </div>
+        <div style={{ marginBottom: 18 }}>
+          <VideoBlock src="public/video2.mp4" />
         </div>
 
         <h2 className="h2" style={{ textAlign: 'center', margin: '0 0 10px' }}>
@@ -240,7 +216,7 @@ function SalesPage({ onBack, onCheckout }) {
 
       {/* SEÇÃO 3: Produto + CTA */}
       <div style={{ padding: '28px 20px' }}>
-        <ImgPlaceholder label="modelo cacheada segurando o Creme Cachos Ledebut" ratio="4/5" />
+        <ImgPlaceholder src="public/photo6.jpeg" label="modelo cacheada segurando o Creme Cachos Ledebut" ratio="4/5" />
         <div style={{ marginTop: 16, textAlign: 'center' }}>
           <h3 className="h3" style={{ margin: '0 0 8px' }}>O segredo das suas amigas cacheadas, agora liberado pra você.</h3>
           <p className="body" style={{ margin: 0 }}>
@@ -327,7 +303,7 @@ function SalesPage({ onBack, onCheckout }) {
         </div>
 
         <p className="small" style={{ textAlign: 'center', marginTop: 28, color: 'var(--ink-400)' }}>
-          © Ledebut · Compra 100% segura · SSL
+          © Ledebut · Compra 100% segura
         </p>
       </div>
     </div>

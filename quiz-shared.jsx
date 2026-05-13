@@ -1,24 +1,9 @@
 // Shared components: logo, progress bar, image placeholder, header
 const { useState, useEffect, useRef, useMemo } = React;
 
-function Logo({ small }) {
+function Logo() {
   return (
-    <div style={{
-      fontFamily: "'Plus Jakarta Sans', sans-serif",
-      fontWeight: 800,
-      letterSpacing: '0.22em',
-      fontSize: small ? 14 : 17,
-      color: 'var(--ink-900)',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 6,
-    }}>
-      <span style={{
-        display: 'inline-block', width: small ? 6 : 8, height: small ? 6 : 8,
-        background: 'var(--green-500)', borderRadius: 2, transform: 'rotate(45deg)'
-      }} />
-      LEDEBUT
-    </div>
+    <img src="public/logo_ledebut.svg" alt="Ledebut" style={{ height: 22, width: 'auto', display: 'block' }} />
   );
 }
 
@@ -42,9 +27,7 @@ function TopBar({ progress, onBack, canBack }) {
           )}
         </div>
         <Logo />
-        <div style={{ width: 32, display: 'flex', justifyContent: 'flex-end' }}>
-          <span style={{ fontSize: 10, color: 'var(--ink-400)', fontWeight: 600 }}>SSL</span>
-        </div>
+        <div style={{ width: 32 }} />
       </div>
       {progress != null && (
         <div className="progress-track">
@@ -55,13 +38,73 @@ function TopBar({ progress, onBack, canBack }) {
   );
 }
 
-function ImgPlaceholder({ label, ratio = '16/10', style }) {
+function ImgPlaceholder({ label, ratio = '16/10', style, src }) {
+  if (src) {
+    return (
+      <img
+        src={src}
+        alt={label}
+        style={{ width: '100%', aspectRatio: ratio, objectFit: 'cover', borderRadius: 14, display: 'block', ...style }}
+      />
+    );
+  }
   return (
     <div className="img-ph" style={{ aspectRatio: ratio, width: '100%', ...style }}>
       <div>
         <div style={{ fontSize: 14, color: 'var(--ink-500)', marginBottom: 4 }}>◧</div>
         [imagem] {label}
       </div>
+    </div>
+  );
+}
+
+function VideoBlock({ src, overlayText, overlaySub }) {
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = () => {
+    if (!videoRef.current) return;
+    if (playing) {
+      videoRef.current.pause();
+      setPlaying(false);
+    } else {
+      videoRef.current.play();
+      setPlaying(true);
+    }
+  };
+
+  return (
+    <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--ink-200)' }}>
+      <video
+        ref={videoRef}
+        src={src}
+        playsInline
+        onEnded={() => setPlaying(false)}
+        style={{ width: '100%', display: 'block', aspectRatio: '9/14', objectFit: 'cover' }}
+      />
+      {!playing && (
+        <div
+          onClick={toggle}
+          style={{
+            position: 'absolute', inset: 0, display: 'grid', placeItems: 'center',
+            background: 'linear-gradient(0deg, rgba(15,23,42,0.45), rgba(15,23,42,0.05))',
+            cursor: 'pointer',
+          }}
+        >
+          <button onClick={toggle} style={{
+            width: 64, height: 64, borderRadius: 999, background: 'white',
+            display: 'grid', placeItems: 'center', boxShadow: '0 10px 30px rgba(0,0,0,.25)',
+          }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--green-600)"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+      )}
+      {overlayText && !playing && (
+        <div style={{ position: 'absolute', left: 12, bottom: 12, color: 'white', pointerEvents: 'none' }}>
+          <div style={{ fontSize: 13, fontWeight: 700 }}>{overlayText}</div>
+          {overlaySub && <div style={{ fontSize: 11, opacity: 0.85 }}>{overlaySub}</div>}
+        </div>
+      )}
     </div>
   );
 }
@@ -135,4 +178,4 @@ function useCountdown(initialSeconds) {
   return s;
 }
 
-Object.assign(window, { Logo, TopBar, ImgPlaceholder, RadioCard, CurlIcon, formatMMSS, useCountdown });
+Object.assign(window, { Logo, TopBar, ImgPlaceholder, VideoBlock, RadioCard, CurlIcon, formatMMSS, useCountdown });

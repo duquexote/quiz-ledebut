@@ -59,6 +59,7 @@ function App() {
       title="Qual é o seu tipo de curvatura?"
       subtitle="Seu cabelo é mais..."
       imgLabel="mulheres com cabelos cacheados, crespos e ondulados"
+      imgSrc="public/photo4.jpeg"
       imgRatio="16/9"
       value={answers.curvatura}
       onPick={(v) => setAnswer('curvatura', v)}
@@ -79,6 +80,7 @@ function App() {
       eyebrow="Pergunta 2 de 4"
       title="Seu fio é mais fino ou mais grosso?"
       imgLabel="close em cabelo cacheado com uma mão segurando uma mecha"
+      imgSrc="public/photo2.jpeg"
       imgRatio="16/9"
       value={answers.espessura}
       onPick={(v) => setAnswer('espessura', v)}
@@ -98,6 +100,7 @@ function App() {
       title="Com que frequência você lava (shampoo) na semana?"
       subtitle="A lavagem é importante, mas retira a hidratação natural dos fios — que precisa ser reposta."
       imgLabel="mulher lavando o cabelo no banho"
+      imgSrc="public/photo3.jpeg"
       imgRatio="16/9"
       value={answers.frequencia}
       onPick={(v) => setAnswer('frequencia', v)}
@@ -117,6 +120,7 @@ function App() {
       title="O que te incomoda hoje no seu cabelo?"
       subtitle="Quando seca, o que no seu cabelo te deixa mais chateada?"
       imgLabel="três mulheres com expressão de dúvida sobre o cabelo"
+      imgSrc="public/photo7.jpeg"
       imgRatio="16/9"
       value={answers.incomodo}
       onPick={(v) => setAnswer('incomodo', v)}

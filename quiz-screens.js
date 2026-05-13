@@ -37,7 +37,7 @@ function WelcomeScreen({ onStart }) {
           Você ganhou um acesso exclusivo ao <b>Creme Cachos Profissional 1L</b> com até <b>50% OFF</b>.
         </p>
 
-        <ImgPlaceholder label="modelo cacheada segurando o Creme Cachos Ledebut 1L" ratio="4/5" />
+        <ImgPlaceholder src="public/photo1.jpeg" label="modelo cacheada segurando o Creme Cachos Ledebut 1L" ratio="4/5" />
 
         <div style={{ marginTop: 18 }}>
           <p className="body" style={{ margin: '0 0 6px', color: 'var(--ink-900)', fontWeight: 600 }}>
@@ -112,7 +112,7 @@ function WelcomeScreen({ onStart }) {
 // ─────────────────────────────────────────────────────────────
 // Question screen wrapper
 // ─────────────────────────────────────────────────────────────
-function QuestionScreen({ progress, onBack, eyebrow, title, subtitle, imgLabel, imgRatio, options, value, onPick, footnote }) {
+function QuestionScreen({ progress, onBack, eyebrow, title, subtitle, imgLabel, imgSrc, imgRatio, options, value, onPick, footnote }) {
   return (
     <div className="screen-enter">
       <TopBar progress={progress} onBack={onBack} canBack={!!onBack} />
@@ -122,7 +122,7 @@ function QuestionScreen({ progress, onBack, eyebrow, title, subtitle, imgLabel, 
         {subtitle && <p className="body" style={{ margin: '0 0 14px' }}>{subtitle}</p>}
 
         {imgLabel && <div style={{ marginBottom: 16 }}>
-          <ImgPlaceholder label={imgLabel} ratio={imgRatio || '16/9'} />
+          <ImgPlaceholder src={imgSrc} label={imgLabel} ratio={imgRatio || '16/9'} />
         </div>}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -301,7 +301,7 @@ function ResultScreen({ answers, onContinue }) {
         <div style={{ marginTop: 16, padding: 14, background: 'var(--green-50)', border: '1px solid var(--green-100)', borderRadius: 14 }}>
           <div className="eyebrow" style={{ marginBottom: 6 }}>Recomendado para você</div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <ImgPlaceholder label="produto" ratio="1/1" style={{ width: 72, height: 72, flexShrink: 0 }} />
+            <ImgPlaceholder src="public/produto.webp" label="produto" ratio="1/1" style={{ width: 72, height: 72, flexShrink: 0, borderRadius: 10 }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 700, fontSize: 14 }}>Creme Cachos Profissional 1L</div>
               <div className="small" style={{ marginTop: 2 }}>Hidratação · Maciez · Definição · Anti-frizz</div>
