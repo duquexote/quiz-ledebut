@@ -26,11 +26,7 @@ function OfferScreen({ onClaim, onSeeSales }) {
         </p>
 
         {/* Video block */}
-        <VideoBlock
-          src="public/video1.mp4"
-          overlayText="Depoimento Cachos Ledebut #087"
-          overlaySub="Rafael Andrade · Cliente verificado ✓"
-        />
+        <VideoBlock src="public/video1.mp4" />
 
         {/* Timer card */}
         <div style={{
