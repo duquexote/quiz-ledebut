@@ -83,8 +83,16 @@ function OfferScreen({ onClaim, onSeeSales }) {
 function SalesPage({ onBack, onCheckout }) {
   const sec1 = useCountdown(4 * 60 + 41);
   const sec2 = useCountdown(4 * 60 + 59);
-  const [picked, setPicked] = useStateO('2un');
+  const [picked, setPicked] = useStateO('3un');
   const [stock] = useStateO(23);
+
+  const checkoutUrls = {
+    '1un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:1',
+    '2un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:2',
+    '3un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:3',
+  };
+
+  const goCheckout = () => window.open(checkoutUrls[picked], '_blank');
 
   const goWhatsapp = () => {
     const msg = encodeURIComponent('Oi, vim pelo quiz da Ledebut e quero garantir o Creme Cachos com preço de fábrica.');
@@ -155,25 +163,37 @@ function SalesPage({ onBack, onCheckout }) {
         {/* Opções de oferta */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <PricingOption
-            id="1un"
             picked={picked === '1un'}
             onPick={() => setPicked('1un')}
+            imgSrc="public/product.webp"
             qty="1 Unidade"
-            off="42% OFF"
+            off="36% OFF"
+            originalPrice="R$ 110,00"
             price="R$ 69,90"
             sub="Creme Cachos 1L"
-            ribbon={null}
           />
           <PricingOption
-            id="2un"
             picked={picked === '2un'}
             onPick={() => setPicked('2un')}
+            imgSrc="public/product2.webp"
             qty="2 Unidades"
-            off="50% OFF"
-            price="R$ 59,90"
-            priceSub="/un · total R$ 119,80"
+            off="45% OFF"
+            originalPrice="R$ 110,00"
+            price="R$ 59,99"
+            priceSub="/un · total R$ 119,98"
             sub="2x Creme Cachos 1L"
-            ribbon="MAIS VENDIDO"
+          />
+          <PricingOption
+            picked={picked === '3un'}
+            onPick={() => setPicked('3un')}
+            imgSrc="public/product3.webp"
+            qty="3 Unidades"
+            off="45% OFF"
+            originalPrice="R$ 110,00"
+            price="R$ 59,99"
+            priceSub="/un · total R$ 179,97"
+            sub="3x Creme Cachos 1L · Frete grátis"
+            ribbon="MELHOR OFERTA"
           />
         </div>
 
@@ -191,7 +211,7 @@ function SalesPage({ onBack, onCheckout }) {
           </div>
         </div>
 
-        <button onClick={onCheckout} className="btn-primary pulse" style={{ marginTop: 16 }}>
+        <button onClick={goCheckout} className="btn-primary pulse" style={{ marginTop: 16 }}>
           Garantir oferta →
         </button>
 
@@ -206,7 +226,7 @@ function SalesPage({ onBack, onCheckout }) {
           ))}
         </div>
         <p className="small" style={{ textAlign: 'center', marginTop: 8 }}>
-          🚚 Frete grátis para todo o Brasil
+          🚚 Frete grátis no kit de 3 unidades
         </p>
       </div>
 
@@ -219,7 +239,7 @@ function SalesPage({ onBack, onCheckout }) {
             Mesmo creme usado em salões profissionais. Mesma fórmula. Sem intermediário.
           </p>
         </div>
-        <button onClick={onCheckout} className="btn-primary" style={{ marginTop: 18 }}>
+        <button onClick={goCheckout} className="btn-primary" style={{ marginTop: 18 }}>
           Quero garantir o desconto →
         </button>
       </div>
@@ -272,7 +292,7 @@ function SalesPage({ onBack, onCheckout }) {
           </div>
         </div>
 
-        <button onClick={onCheckout} className="btn-primary pulse" style={{ marginTop: 14 }}>
+        <button onClick={goCheckout} className="btn-primary pulse" style={{ marginTop: 14 }}>
           Quero aproveitar a oferta →
         </button>
         <button onClick={goWhatsapp} style={{
@@ -306,14 +326,14 @@ function SalesPage({ onBack, onCheckout }) {
   );
 }
 
-function PricingOption({ picked, onPick, qty, off, price, priceSub, sub, ribbon }) {
+function PricingOption({ picked, onPick, imgSrc, qty, off, originalPrice, price, priceSub, sub, ribbon }) {
   return (
     <button onClick={onPick} className={`card-option ${picked ? 'selected' : ''}`}
       style={{
         position: 'relative',
         background: 'white',
         border: '2px solid ' + (picked ? 'var(--green-500)' : 'var(--ink-200)'),
-        borderRadius: 16, padding: '16px 14px',
+        borderRadius: 16, padding: '14px',
         display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
       }}>
       {ribbon && <span style={{
@@ -324,22 +344,33 @@ function PricingOption({ picked, onPick, qty, off, price, priceSub, sub, ribbon 
       }}>{ribbon}</span>}
 
       <span style={{
-        width: 22, height: 22, borderRadius: 999, flexShrink: 0,
+        width: 20, height: 20, borderRadius: 999, flexShrink: 0,
         border: picked ? '6px solid var(--green-500)' : '2px solid var(--ink-200)',
         background: 'white',
       }} />
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontWeight: 700, fontSize: 15 }}>{qty}</span>
+
+      <img src={imgSrc} alt={qty} style={{
+        width: 56, height: 56, objectFit: 'contain', flexShrink: 0, borderRadius: 8,
+      }} />
+
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          <span style={{ fontWeight: 700, fontSize: 14 }}>{qty}</span>
           <span style={{
             background: 'var(--green-50)', color: 'var(--green-700)',
-            padding: '2px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700,
+            padding: '2px 7px', borderRadius: 999, fontSize: 11, fontWeight: 700,
           }}>{off}</span>
         </div>
+        {originalPrice && (
+          <div style={{ fontSize: 11, color: 'var(--ink-400)', textDecoration: 'line-through', marginTop: 1 }}>
+            de {originalPrice}
+          </div>
+        )}
         <div className="small" style={{ marginTop: 2 }}>{sub}</div>
       </div>
-      <div style={{ textAlign: 'right' }}>
-        <div style={{ fontWeight: 800, fontSize: 18, color: 'var(--ink-900)' }}>{price}</div>
+
+      <div style={{ textAlign: 'right', flexShrink: 0 }}>
+        <div style={{ fontWeight: 800, fontSize: 17, color: 'var(--ink-900)' }}>{price}</div>
         {priceSub && <div style={{ fontSize: 10, color: 'var(--ink-500)' }}>{priceSub}</div>}
       </div>
     </button>

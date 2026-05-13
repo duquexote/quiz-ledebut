@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quiz Cachos · Ledebut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green-50:  #ecfdf5;
+    --green-100: #d1fae5;
+    --green-500: #16a34a;
+    --green-600: #15803d;
+    --green-700: #14532d;
+    --ink-900: #0f172a;
+    --ink-700: #334155;
+    --ink-500: #64748b;
+    --ink-400: #94a3b8;
+    --ink-200: #e2e8f0;
+    --ink-100: #f1f5f9;
+    --ink-50:  #f8fafc;
+    --bg:      #ffffff;
+    --warn-bg: #fef9c3;
+    --warn-bd: #fde68a;
+    --warn-fg: #713f12;
+    --red:     #dc2626;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--ink-100); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: var(--ink-900); -webkit-font-smoothing: antialiased; }
+  body { min-height: 100vh; display: flex; justify-content: center; }
+  #root { width: 100%; max-width: 480px; min-height: 100vh; background: var(--bg); box-shadow: 0 10px 40px rgba(15,23,42,0.08); overflow: hidden; position: relative; }
+
+  /* Reset button */
+  button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
+
+  /* Image placeholder */
+  .img-ph {
+    background:
+      repeating-linear-gradient(135deg, #f8fafc 0 12px, #eef2f7 12px 13px);
+    border: 1px dashed var(--ink-200);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-400);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding: 12px;
+    line-height: 1.5;
+  }
+
+  /* Fade/slide in */
+  .screen-enter { animation: screen-in .35s cubic-bezier(.2,.7,.2,1); }
+  @keyframes screen-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .pop-in { animation: pop-in .45s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(.94); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* Card press */
+  .card-option {
+    transition: border-color .15s, background .15s, transform .08s;
+  }
+  .card-option:active { transform: scale(0.985); }
+  .card-option:hover { border-color: var(--green-500); }
+  .card-option.selected { border-color: var(--green-500); background: var(--green-50); }
+
+  /* Primary button */
+  .btn-primary {
+    width: 100%;
+    background: var(--green-500);
+    color: white;
+    font-weight: 700;
+    padding: 16px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    letter-spacing: .01em;
+    box-shadow: 0 4px 0 0 var(--green-700), 0 10px 24px -8px rgba(22,163,74,.55);
+    transition: transform .08s, box-shadow .15s, background .15s;
+  }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 0 var(--green-700), 0 6px 14px -8px rgba(22,163,74,.55); }
+  .btn-primary:hover { background: var(--green-600); }
+
+  /* Pulse */
+  .pulse { animation: pulse 1.4s ease-out infinite; }
+  @keyframes pulse {
+    0%   { box-shadow: 0 4px 0 0 var(--green-700), 0 10px 24px -8px rgba(22,163,74,.55), 0 0 0 0 rgba(22,163,74,.45); }
+    70%  { box-shadow: 0 4px 0 0 var(--green-700), 0 10px 24px -8px rgba(22,163,74,.55), 0 0 0 14px rgba(22,163,74,0); }
+    100% { box-shadow: 0 4px 0 0 var(--green-700), 0 10px 24px -8px rgba(22,163,74,.55), 0 0 0 0 rgba(22,163,74,0); }
+  }
+
+  /* Progress bar */
+  .progress-track { background: var(--ink-100); height: 8px; border-radius: 999px; overflow: hidden; }
+  .progress-fill  { background: linear-gradient(90deg, #22c55e, #16a34a); height: 100%; border-radius: 999px; transition: width .5s cubic-bezier(.2,.7,.2,1); }
+
+  /* Spinner ring */
+  .ring {
+    width: 96px; height: 96px; border-radius: 50%;
+    background: conic-gradient(var(--green-500) calc(var(--p) * 1%), var(--ink-100) 0);
+    display: grid; place-items: center;
+    transition: background .3s linear;
+  }
+  .ring::before { content:""; width: 76px; height: 76px; border-radius: 50%; background: white; grid-area: 1/1; }
+  .ring .pct { grid-area:1/1; font-weight:800; font-size:22px; color: var(--ink-900); z-index:1; }
+
+  /* Confetti dots (welcome) */
+  .live-dot {
+    width: 8px; height: 8px; border-radius:50%; background: var(--green-500); box-shadow: 0 0 0 0 rgba(22,163,74,.5);
+    animation: live 1.6s ease-out infinite;
+    display: inline-block;
+  }
+  @keyframes live {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,.5); }
+    50%      { box-shadow: 0 0 0 8px rgba(22,163,74,0); }
+  }
+
+  /* Generic */
+  .h1 { font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
+  .h2 { font-size: 22px; font-weight: 800; line-height: 1.2;  letter-spacing: -0.015em; }
+  .h3 { font-size: 18px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .body { font-size: 15px; line-height: 1.55; color: var(--ink-700); }
+  .small { font-size: 13px; line-height: 1.5; color: var(--ink-500); }
+  .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--green-600); }
+
+  /* Chips */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--green-50); color: var(--green-700);
+    font-size: 12px; font-weight: 600;
+    border: 1px solid var(--green-100);
+  }
+  .chip.warn { background: var(--warn-bg); color: var(--warn-fg); border-color: var(--warn-bd); }
+  .chip.dark { background: var(--ink-900); color: white; border-color: var(--ink-900); }
+
+  /* Card */
+  .card {
+    background: white;
+    border: 1px solid var(--ink-200);
+    border-radius: 16px;
+    padding: 14px 16px;
+  }
+
+  /* Hide scrollbar on screen container during transitions */
+  .scroll-region { overflow-y: auto; overflow-x: hidden; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="quiz-shared.jsx"></script>
+  <script type="text/babel" src="quiz-screens.jsx"></script>
+  <script type="text/babel" src="quiz-sales.jsx"></script>
+  <script type="text/babel" src="quiz-app.jsx"></script>
+</body>
+</html>
