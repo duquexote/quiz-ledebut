@@ -259,7 +259,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <FAQ q="Funciona em todos os tipos de cacho?" a="Sim! O Creme Cachos foi desenvolvido para curvaturas 2A até 4C — onduladas, cacheadas e crespas." />
             <FAQ q="Em quanto tempo chega?" a="Enviamos em até 24h úteis. Entrega entre 3 e 7 dias úteis para todo o Brasil, com frete grátis." />
-            <FAQ q="E se eu não gostar?" a="Garantia de 30 dias. Não gostou, devolvemos seu dinheiro — sem pergunta." />
+            <FAQ q="E se eu não gostar?" a="Garantia de 7 dias. Não gostou, devolvemos seu dinheiro — sem pergunta." />
             <FAQ q="O produto pesa o cabelo?" a="Não. A fórmula é leve, define o cacho e dá maciez sem efeito pesado ou oleoso." />
           </div>
         </div>
@@ -299,8 +299,8 @@ function SalesPage({ onBack, onCheckout, sec }) {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, fontSize: 14 }}>Garantia incondicional de 30 dias</div>
-            <div className="small">Não gostou? Devolvemos seu dinheiro — sem pergunta.</div>
+            <div style={{ fontWeight: 700, fontSize: 14 }}>Garantia incondicional de 7 dias</div>
+            <div className="small">Não gostou em 7 dias? Devolvemos seu dinheiro — sem pergunta.</div>
           </div>
         </div>
 
