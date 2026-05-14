@@ -96,10 +96,11 @@ function SalesPage({ onBack, onCheckout, sec }) {
   };
 
   const goCheckout = () => window.open(checkoutUrls[picked], '_blank');
+  const scrollToOffer = () => document.getElementById('oferta-section').scrollIntoView({ behavior: 'smooth' });
 
   const goWhatsapp = () => {
     const msg = encodeURIComponent('Oi, vim pelo quiz da Ledebut e quero garantir o Creme Cachos com preço de fábrica.');
-    window.open(`https://wa.me/?text=${msg}`, '_blank');
+    window.open(`https://wa.me/7183143408?text=${msg}`, '_blank');
   };
 
   return (
@@ -221,7 +222,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
           Faça parte das mais de <b>20mil cacheadas</b> que transformaram seus cachos com o Creme Cachos Profissional.
         </p>
         <VideoBlock src="public/video2.mp4" />
-        <button onClick={goCheckout} className="btn-primary" style={{ marginTop: 18 }}>
+        <button onClick={scrollToOffer} className="btn-primary" style={{ marginTop: 18 }}>
           Quero garantir o desconto →
         </button>
       </div>
@@ -277,7 +278,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
           </div>
         </div>
 
-        <button onClick={goCheckout} className="btn-primary pulse" style={{ marginTop: 14 }}>
+        <button onClick={scrollToOffer} className="btn-primary pulse" style={{ marginTop: 14 }}>
           Quero aproveitar a oferta →
         </button>
         <button onClick={goWhatsapp} style={{
