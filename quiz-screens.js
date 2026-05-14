@@ -48,6 +48,25 @@ function WelcomeScreen({ onStart, sec }) {
           </p>
         </div>
 
+        <div style={{
+          marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          padding: '8px 12px', background: 'var(--warn-bg)',
+          border: '1px solid var(--warn-bd)', borderRadius: 12,
+        }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn-fg)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span style={{ fontSize: 13, color: 'var(--warn-fg)', fontWeight: 600 }}>
+            Oferta expira em <b style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatMMSS(sec)}</b>
+          </span>
+        </div>
+
+        <button onClick={onStart} className="btn-primary pulse" style={{ marginTop: 12 }}>
+          Quero descobrir meu cabelo →
+        </button>
+
+        <p className="small" style={{ textAlign: 'center', margin: '8px 0 0' }}>
+          🔒 Suas respostas ficam protegidas. Sem spam.
+        </p>
+
         {/* Social proof card */}
         <div className="card pop-in" key={proofIdx} style={{
           marginTop: 10,
@@ -68,25 +87,6 @@ function WelcomeScreen({ onStart, sec }) {
             </div>
           </div>
         </div>
-
-        <div style={{
-          marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          padding: '8px 12px', background: 'var(--warn-bg)',
-          border: '1px solid var(--warn-bd)', borderRadius: 12,
-        }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn-fg)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span style={{ fontSize: 13, color: 'var(--warn-fg)', fontWeight: 600 }}>
-            Oferta expira em <b style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatMMSS(sec)}</b>
-          </span>
-        </div>
-
-        <button onClick={onStart} className="btn-primary pulse" style={{ marginTop: 12 }}>
-          Quero descobrir meu cabelo →
-        </button>
-
-        <p className="small" style={{ textAlign: 'center', margin: '8px 0 0' }}>
-          🔒 Suas respostas ficam protegidas. Sem spam.
-        </p>
 
         {/* Trust badges */}
         <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
