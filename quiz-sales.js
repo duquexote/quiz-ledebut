@@ -4,8 +4,7 @@ const { useState: useStateO, useEffect: useEffectO } = React;
 // ─────────────────────────────────────────────────────────────
 // Screen 8: Oferta liberada
 // ─────────────────────────────────────────────────────────────
-function OfferScreen({ onClaim, onSeeSales }) {
-  const sec = useCountdown(5 * 60 + 15);
+function OfferScreen({ onClaim, onSeeSales, sec }) {
   return (
     <div className="screen-enter">
       <TopBar progress={100} />
@@ -25,8 +24,12 @@ function OfferScreen({ onClaim, onSeeSales }) {
           E como você mostrou que precisa do produto, liberamos a compra direto da fábrica com um super desconto: até <b style={{ color: 'var(--green-600)' }}>50% OFF</b>.
         </p>
 
+        <button onClick={onSeeSales} className="btn-primary pulse" style={{ marginBottom: 16 }}>
+          Quero a oferta da fábrica →
+        </button>
+
         {/* Video block */}
-        <VideoBlock src="public/video1.mp4" />
+        <VideoBlock src="public/video1.mp4" autoPlay />
 
         {/* Timer card */}
         <div style={{
@@ -66,7 +69,7 @@ function OfferScreen({ onClaim, onSeeSales }) {
           ))}
         </div>
 
-        <button onClick={onSeeSales} className="btn-primary pulse" style={{ marginTop: 20 }}>
+        <button onClick={onSeeSales} className="btn-primary" style={{ marginTop: 20 }}>
           Quero a oferta da fábrica →
         </button>
         <p className="small" style={{ textAlign: 'center', marginTop: 10 }}>
@@ -80,9 +83,9 @@ function OfferScreen({ onClaim, onSeeSales }) {
 // ─────────────────────────────────────────────────────────────
 // Sales Page (after offer)
 // ─────────────────────────────────────────────────────────────
-function SalesPage({ onBack, onCheckout }) {
-  const sec1 = useCountdown(4 * 60 + 41);
-  const sec2 = useCountdown(4 * 60 + 59);
+function SalesPage({ onBack, onCheckout, sec }) {
+  const sec1 = sec;
+  const sec2 = sec;
   const [picked, setPicked] = useStateO('3un');
   const [stock] = useStateO(23);
 
@@ -113,37 +116,8 @@ function SalesPage({ onBack, onCheckout }) {
         Apenas <b style={{ color: '#fbbf24' }}>{stock} unidades</b> liberadas com esse preço
       </div>
 
-      {/* SEÇÃO 1: Chamada principal */}
-      <div style={{ padding: '20px 20px 24px' }}>
-        <div style={{ marginBottom: 18 }}>
-          <VideoBlock src="public/video2.mp4" />
-        </div>
-
-        <h2 className="h2" style={{ textAlign: 'center', margin: '0 0 10px' }}>
-          Garanta o seu <span style={{ color: 'var(--green-600)' }}>Creme Cachos</span> com preço de FÁBRICA
-        </h2>
-        <p className="body" style={{ textAlign: 'center', margin: '0 0 18px' }}>
-          Faça parte das mais de <b>20mil cacheadas</b> que transformaram seus cachos com o Creme Cachos Profissional.
-        </p>
-
-        <button onClick={() => document.getElementById('oferta-section').scrollIntoView({ behavior: 'smooth' })} className="btn-primary">
-          Vem garantir seu creme aqui →
-        </button>
-      </div>
-
-      {/* SEÇÃO 2: Oferta */}
+      {/* SEÇÃO 1: Oferta */}
       <div id="oferta-section" style={{ padding: '24px 20px', background: 'var(--ink-50)' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
-          <button onClick={() => document.getElementById('oferta-section').scrollIntoView({ behavior: 'smooth' })}
-            style={{
-              background: 'var(--green-500)', color: 'white',
-              padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 700,
-              boxShadow: '0 4px 12px -2px rgba(22,163,74,.4)',
-            }}>
-            Quero aproveitar a oferta
-          </button>
-        </div>
-
         <div className="card" style={{ background: 'white', padding: 18, marginBottom: 16, position: 'relative' }}>
           <div style={{ fontSize: 11, color: 'var(--green-600)', fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 8 }}>
             ★ É febre entre cacheadas
@@ -157,7 +131,7 @@ function SalesPage({ onBack, onCheckout }) {
           Creme Cachos Profissional de 1 litro
         </h3>
         <p style={{ textAlign: 'center', fontSize: 14, margin: '0 0 16px', color: 'var(--ink-500)' }}>
-          de <span style={{ textDecoration: 'line-through', color: 'var(--red)' }}>R$ 120,00</span> por apenas:
+          de <span style={{ textDecoration: 'line-through', color: 'var(--red)' }}>R$ 110,00</span> por apenas:
         </p>
 
         {/* Opções de oferta */}
@@ -230,15 +204,23 @@ function SalesPage({ onBack, onCheckout }) {
         </p>
       </div>
 
-      {/* SEÇÃO 3: Produto + CTA */}
+      {/* SEÇÃO 2: Foto + Vídeo + chamada */}
       <div style={{ padding: '28px 20px' }}>
-        <ImgPlaceholder src="public/photo6.jpeg" label="modelo cacheada segurando o Creme Cachos Ledebut" ratio="4/5" />
-        <div style={{ marginTop: 16, textAlign: 'center' }}>
-          <h3 className="h3" style={{ margin: '0 0 8px' }}>O segredo das suas amigas cacheadas, agora liberado pra você.</h3>
-          <p className="body" style={{ margin: 0 }}>
-            Mesmo creme usado em salões profissionais. Mesma fórmula. Sem intermediário.
-          </p>
-        </div>
+        <h2 className="h2" style={{ textAlign: 'center', margin: '0 0 8px' }}>
+          Resultado de salão em casa
+        </h2>
+        <p className="body" style={{ textAlign: 'center', margin: '0 0 16px' }}>
+          Cachos definidos, hidratados e sem frizz — do jeito que você sempre quis, sem sair de casa.
+        </p>
+        <ImgPlaceholder src="public/photo6.webp" label="modelo cacheada segurando o Creme Cachos Ledebut" ratio="4/5" />
+
+        <h2 className="h2" style={{ textAlign: 'center', margin: '24px 0 10px' }}>
+          Garanta o seu <span style={{ color: 'var(--green-600)' }}>Creme Cachos</span> com preço de FÁBRICA
+        </h2>
+        <p className="body" style={{ textAlign: 'center', margin: '0 0 18px' }}>
+          Faça parte das mais de <b>20mil cacheadas</b> que transformaram seus cachos com o Creme Cachos Profissional.
+        </p>
+        <VideoBlock src="public/video2.mp4" />
         <button onClick={goCheckout} className="btn-primary" style={{ marginTop: 18 }}>
           Quero garantir o desconto →
         </button>
@@ -253,16 +235,19 @@ function SalesPage({ onBack, onCheckout }) {
           <Testimonial
             name="Rafaela Oliveira"
             handle="@oliveiraffa"
+            avatar="public/profile1.webp"
             text="Eu nunca tinha usado um produto profissional, achava que seria super caro! Muito bom vocês liberarem direto da fábrica, estou apaixonada pelo produto."
           />
           <Testimonial
             name="Anna Guedes"
             handle="@annaluzisaguedes"
+            avatar="public/profile2.webp"
             text="Que produto maravilhoso! Rende muito, tô usando sempre e a cada uso parece que meus cachos ficam ainda mais lindos. Amando!"
           />
           <Testimonial
             name="Mariana Costa"
             handle="@mari.costa"
+            avatar="public/profile3.webp"
             text="Comprei na dúvida e foi a melhor escolha. Definição que dura 3 dias sem retoque. Já tô comprando o segundo!"
           />
         </div>
@@ -377,15 +362,18 @@ function PricingOption({ picked, onPick, imgSrc, qty, off, originalPrice, price,
   );
 }
 
-function Testimonial({ name, handle, text }) {
+function Testimonial({ name, handle, text, avatar }) {
   return (
     <div className="card" style={{ background: 'white' }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 8 }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: 999,
-          background: 'linear-gradient(135deg, #f0abfc, #c084fc)',
-          display: 'grid', placeItems: 'center', color: 'white', fontWeight: 700, fontSize: 14,
-        }}>{name[0]}</div>
+        {avatar
+          ? <img src={avatar} alt={name} style={{ width: 36, height: 36, borderRadius: 999, objectFit: 'cover', flexShrink: 0 }} />
+          : <div style={{
+              width: 36, height: 36, borderRadius: 999,
+              background: 'linear-gradient(135deg, #f0abfc, #c084fc)',
+              display: 'grid', placeItems: 'center', color: 'white', fontWeight: 700, fontSize: 14,
+            }}>{name[0]}</div>
+        }
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontWeight: 700, fontSize: 13 }}>
             {name}

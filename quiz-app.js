@@ -8,6 +8,7 @@ function App() {
   const [answers, setAnswers] = useStateA({
     curvatura: null, espessura: null, frequencia: null, incomodo: null,
   });
+  const sec = useCountdown(14 * 60 + 33);
 
   // Persist for refresh
   useEffectA(() => {
@@ -49,7 +50,7 @@ function App() {
     loading: null, result: null, offer: null, sales: null,
   }[step];
 
-  if (step === 'welcome') return <WelcomeScreen onStart={() => setStep('q1')} />;
+  if (step === 'welcome') return <WelcomeScreen onStart={() => setStep('q1')} sec={sec} />;
 
   if (step === 'q1') return (
     <QuestionScreen
@@ -59,7 +60,7 @@ function App() {
       title="Qual é o seu tipo de curvatura?"
       subtitle="Seu cabelo é mais..."
       imgLabel="mulheres com cabelos cacheados, crespos e ondulados"
-      imgSrc="public/photo4.jpeg"
+      imgSrc="public/photo4.webp"
       imgRatio="16/9"
       value={answers.curvatura}
       onPick={(v) => setAnswer('curvatura', v)}
@@ -80,7 +81,7 @@ function App() {
       eyebrow="Pergunta 2 de 4"
       title="Seu fio é mais fino ou mais grosso?"
       imgLabel="close em cabelo cacheado com uma mão segurando uma mecha"
-      imgSrc="public/photo2.jpeg"
+      imgSrc="public/photo2.webp"
       imgRatio="16/9"
       value={answers.espessura}
       onPick={(v) => setAnswer('espessura', v)}
@@ -100,7 +101,7 @@ function App() {
       title="Com que frequência você lava (shampoo) na semana?"
       subtitle="A lavagem é importante, mas retira a hidratação natural dos fios — que precisa ser reposta."
       imgLabel="mulher lavando o cabelo no banho"
-      imgSrc="public/photo3.jpeg"
+      imgSrc="public/photo3.webp"
       imgRatio="16/9"
       value={answers.frequencia}
       onPick={(v) => setAnswer('frequencia', v)}
@@ -120,7 +121,7 @@ function App() {
       title="O que te incomoda hoje no seu cabelo?"
       subtitle="Quando seca, o que no seu cabelo te deixa mais chateada?"
       imgLabel="três mulheres com expressão de dúvida sobre o cabelo"
-      imgSrc="public/photo7.jpeg"
+      imgSrc="public/photo7.webp"
       imgRatio="16/9"
       value={answers.incomodo}
       onPick={(v) => setAnswer('incomodo', v)}
@@ -135,8 +136,8 @@ function App() {
 
   if (step === 'loading') return <LoadingScreen onDone={() => setStep('result')} />;
   if (step === 'result')  return <ResultScreen answers={answers} onContinue={() => setStep('offer')} />;
-  if (step === 'offer')   return <OfferScreen onClaim={() => setStep('sales')} onSeeSales={() => setStep('sales')} />;
-  if (step === 'sales')   return <SalesPage onBack={() => setStep('offer')} onCheckout={() => alert('→ ir para checkout/oferta/WhatsApp')} />;
+  if (step === 'offer')   return <OfferScreen onClaim={() => setStep('sales')} onSeeSales={() => setStep('sales')} sec={sec} />;
+  if (step === 'sales')   return <SalesPage onBack={() => setStep('offer')} onCheckout={() => alert('→ ir para checkout/oferta/WhatsApp')} sec={sec} />;
 
   return null;
 }

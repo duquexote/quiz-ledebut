@@ -4,7 +4,7 @@ const { useState: useStateS, useEffect: useEffectS, useRef: useRefS } = React;
 // ─────────────────────────────────────────────────────────────
 // Screen 1: Welcome / Acesso liberado
 // ─────────────────────────────────────────────────────────────
-function WelcomeScreen({ onStart }) {
+function WelcomeScreen({ onStart, sec }) {
   const [proofIdx, setProofIdx] = useStateS(0);
   const proofs = [
     { name: 'Vania', city: 'Campinas, SP', when: 'agora há pouco' },
@@ -21,26 +21,26 @@ function WelcomeScreen({ onStart }) {
   return (
     <div className="screen-enter">
       <TopBar />
-      <div style={{ padding: '20px 20px 28px' }}>
+      <div style={{ padding: '14px 20px 16px' }}>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 14 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
           <span className="chip">
             <span style={{ width: 6, height: 6, background: 'var(--green-500)', borderRadius: 999 }} />
             Liberação direto da fábrica
           </span>
         </div>
 
-        <h1 className="h1" style={{ textAlign: 'center', margin: 0, marginBottom: 8 }}>
+        <h1 className="h1" style={{ textAlign: 'center', margin: 0, marginBottom: 6 }}>
           Acesso <span style={{ color: 'var(--green-600)' }}>LIBERADO</span><br/>direto à Fábrica
         </h1>
-        <p className="body" style={{ textAlign: 'center', margin: '0 0 18px' }}>
+        <p className="body" style={{ textAlign: 'center', margin: '0 0 10px' }}>
           Você ganhou um acesso exclusivo ao <b>Creme Cachos Profissional 1L</b> com até <b>50% OFF</b>.
         </p>
 
-        <ImgPlaceholder src="public/photo1.jpeg" label="modelo cacheada segurando o Creme Cachos Ledebut 1L" ratio="4/5" />
+        <ImgPlaceholder src="public/photo1.webp" label="modelo cacheada segurando o Creme Cachos Ledebut 1L" ratio="16/9" />
 
-        <div style={{ marginTop: 18 }}>
-          <p className="body" style={{ margin: '0 0 6px', color: 'var(--ink-900)', fontWeight: 600 }}>
+        <div style={{ marginTop: 10 }}>
+          <p className="body" style={{ margin: '0 0 4px', color: 'var(--ink-900)', fontWeight: 600 }}>
             Antes de liberar o desconto, precisamos saber se o Creme Cachos é mesmo o produto certo pra você.
           </p>
           <p className="small" style={{ margin: 0 }}>
@@ -50,7 +50,7 @@ function WelcomeScreen({ onStart }) {
 
         {/* Social proof card */}
         <div className="card pop-in" key={proofIdx} style={{
-          marginTop: 18,
+          marginTop: 10,
           display: 'flex', alignItems: 'center', gap: 12,
           background: 'var(--ink-50)', borderColor: 'var(--ink-100)'
         }}>
@@ -70,26 +70,26 @@ function WelcomeScreen({ onStart }) {
         </div>
 
         <div style={{
-          marginTop: 12, display: 'flex', alignItems: 'center', gap: 8,
-          padding: '10px 12px', background: '#fff7ed',
-          border: '1px solid #fed7aa', borderRadius: 12,
+          marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          padding: '8px 12px', background: 'var(--warn-bg)',
+          border: '1px solid var(--warn-bd)', borderRadius: 12,
         }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c2410c" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-          <span style={{ fontSize: 13, color: '#9a3412', fontWeight: 600 }}>
-            Restam apenas <b>23 ofertas</b> disponíveis hoje
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn-fg)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span style={{ fontSize: 13, color: 'var(--warn-fg)', fontWeight: 600 }}>
+            Oferta expira em <b style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatMMSS(sec)}</b>
           </span>
         </div>
 
-        <button onClick={onStart} className="btn-primary pulse" style={{ marginTop: 18 }}>
+        <button onClick={onStart} className="btn-primary pulse" style={{ marginTop: 12 }}>
           Quero descobrir meu cabelo →
         </button>
 
-        <p className="small" style={{ textAlign: 'center', margin: '12px 0 0' }}>
+        <p className="small" style={{ textAlign: 'center', margin: '8px 0 0' }}>
           🔒 Suas respostas ficam protegidas. Sem spam.
         </p>
 
         {/* Trust badges */}
-        <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+        <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
           {[
             { t: '+20mil', s: 'cacheadas' },
             { t: '4.9 ★', s: 'avaliação' },
@@ -253,30 +253,27 @@ function ResultScreen({ answers, onContinue }) {
   return (
     <div className="screen-enter">
       <TopBar progress={92} />
-      <div style={{ padding: '18px 20px 28px' }}>
-        <div className="eyebrow" style={{ marginBottom: 8, color: 'var(--green-600)' }}>✓ Análise concluída</div>
-        <h2 className="h2" style={{ margin: '0 0 8px' }}>Já temos seu resultado.</h2>
-        <p className="body" style={{ margin: '0 0 6px' }}>
-          {diagnostico} Ele resseca depois que seca e perde brilho.
-        </p>
-        <p className="body" style={{ margin: '0 0 18px' }}>
-          O que funciona melhor é um <b>creme que hidrata, deixa o cacho macio e não mela</b>.
+      <div style={{ padding: '12px 20px 16px' }}>
+        <div className="eyebrow" style={{ marginBottom: 4, color: 'var(--green-600)' }}>✓ Análise concluída</div>
+        <h2 className="h2" style={{ margin: '0 0 6px' }}>Já temos seu resultado.</h2>
+        <p className="body" style={{ margin: '0 0 10px' }}>
+          {diagnostico} O que funciona melhor é um <b>creme que hidrata, deixa o cacho macio e não mela</b>.
         </p>
 
         {/* Diagnóstico cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
           <Gauge label="Porosidade dos fios" value={poros} color="#15803d" />
           <Gauge label="Nível do frizz" value={frizz} color="#ea580c" />
         </div>
 
         {/* Evolução */}
-        <div className="card" style={{ padding: 16 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{ fontWeight: 700, fontSize: 14 }}>Evolução prevista</span>
+        <div className="card" style={{ padding: '10px 12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+            <span style={{ fontWeight: 700, fontSize: 13 }}>Evolução prevista</span>
             <span className="chip">com Creme Cachos 1L</span>
           </div>
           <EvolutionChart />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--ink-500)', marginTop: 6, fontWeight: 600 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--ink-500)', marginTop: 2, fontWeight: 600 }}>
             <span>Ressecado</span>
             <span>Atual</span>
             <span style={{ color: 'var(--green-600)' }}>Hidratado ✨</span>
@@ -285,34 +282,34 @@ function ResultScreen({ answers, onContinue }) {
 
         {/* Alerta */}
         <div style={{
-          marginTop: 14,
-          padding: '12px 14px',
+          marginTop: 8,
+          padding: '8px 12px',
           background: 'var(--warn-bg)', border: '1px solid var(--warn-bd)',
           color: 'var(--warn-fg)',
           borderRadius: 12, display: 'flex', gap: 10, alignItems: 'flex-start',
         }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <div style={{ fontSize: 13, lineHeight: 1.45 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div style={{ fontSize: 12, lineHeight: 1.4 }}>
             <b>Alerta!</b> Um creme de pentear após a lavagem ajuda a manter os fios hidratados ao longo da semana.
           </div>
         </div>
 
         {/* Recomendado */}
-        <div style={{ marginTop: 16, padding: 14, background: 'var(--green-50)', border: '1px solid var(--green-100)', borderRadius: 14 }}>
-          <div className="eyebrow" style={{ marginBottom: 6 }}>Recomendado para você</div>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <ImgPlaceholder src="public/produto.webp" label="produto" ratio="1/1" style={{ width: 72, height: 72, flexShrink: 0, borderRadius: 10 }} />
+        <div style={{ marginTop: 8, padding: '10px 12px', background: 'var(--green-50)', border: '1px solid var(--green-100)', borderRadius: 14 }}>
+          <div className="eyebrow" style={{ marginBottom: 4 }}>Recomendado para você</div>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <ImgPlaceholder src="public/produto.webp" label="produto" ratio="1/1" style={{ width: 56, height: 56, flexShrink: 0, borderRadius: 10 }} />
             <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>Creme Cachos Profissional 1L</div>
+              <div style={{ fontWeight: 700, fontSize: 13 }}>Creme Cachos Profissional 1L</div>
               <div className="small" style={{ marginTop: 2 }}>Hidratação · Maciez · Definição · Anti-frizz</div>
             </div>
           </div>
         </div>
 
-        <button onClick={onContinue} className="btn-primary" style={{ marginTop: 20 }}>
+        <button onClick={onContinue} className="btn-primary" style={{ marginTop: 12 }}>
           Quero um produto que funciona →
         </button>
-        <p className="small" style={{ textAlign: 'center', marginTop: 10 }}>
+        <p className="small" style={{ textAlign: 'center', marginTop: 6 }}>
           Sua oferta está reservada por <b>5 minutos</b>.
         </p>
       </div>
@@ -338,7 +335,7 @@ function Gauge({ label, value, color }) {
 function EvolutionChart() {
   // 3 points: ressecado (low), atual (mid), hidratado (high)
   return (
-    <svg width="100%" viewBox="0 0 320 110" style={{ display: 'block' }}>
+    <svg width="100%" viewBox="0 0 320 110" style={{ display: 'block', height: 64 }}>
       <defs>
         <linearGradient id="evogradient" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#22c55e" stopOpacity="0.35" />

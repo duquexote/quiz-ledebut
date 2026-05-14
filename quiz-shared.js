@@ -58,9 +58,21 @@ function ImgPlaceholder({ label, ratio = '16/10', style, src }) {
   );
 }
 
-function VideoBlock({ src, overlayText, overlaySub }) {
+function VideoBlock({ src, overlayText, overlaySub, autoPlay }) {
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    if (autoPlay && videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().then(() => {
+        setPlaying(true);
+        setTimeout(() => {
+          if (videoRef.current) videoRef.current.muted = false;
+        }, 500);
+      }).catch(() => setPlaying(false));
+    }
+  }, []);
 
   const toggle = () => {
     if (!videoRef.current) return;
