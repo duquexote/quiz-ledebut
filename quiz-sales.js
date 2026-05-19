@@ -5,6 +5,14 @@ const { useState: useStateO, useEffect: useEffectO } = React;
 // Screen 8: Oferta liberada
 // ─────────────────────────────────────────────────────────────
 function OfferScreen({ onClaim, onSeeSales, sec }) {
+  useEffectO(() => {
+    trackMetaEventOnce('ledebut_quiz_complete_tracked', 'CompleteRegistration', {
+      content_name: 'Quiz Cachos Ledebut',
+      content_category: 'quiz',
+      product: 'Cachos 1L',
+    });
+  }, []);
+
   return (
     <div className="screen-enter">
       <TopBar progress={100} />
@@ -95,7 +103,16 @@ function SalesPage({ onBack, onCheckout, sec }) {
     '3un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:3',
   };
 
-  const goCheckout = () => window.open(checkoutUrls[picked], '_blank');
+  const goCheckout = () => {
+    trackMetaEvent('InitiateCheckout', {
+      content_name: 'Cachos 1L',
+      content_category: 'quiz',
+      variant: picked,
+      currency: 'BRL',
+    });
+
+    window.open(appendTrackingParams(checkoutUrls[picked]), '_blank');
+  };
   const scrollToOffer = () => document.getElementById('oferta-section').scrollIntoView({ behavior: 'smooth' });
 
   const goWhatsapp = () => {

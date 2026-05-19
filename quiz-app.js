@@ -3,12 +3,60 @@ const { useState: useStateA, useEffect: useEffectA } = React;
 
 const STEPS = ['welcome', 'q1', 'q2', 'q3', 'q4', 'loading', 'result', 'offer', 'sales'];
 
+const TRACKING_STORAGE_KEY = 'ledebut_tracking_params';
+
+function saveTrackingParams() {
+  const params = new URLSearchParams(window.location.search);
+  if ([...params.keys()].length === 0) return;
+
+  try {
+    localStorage.setItem(TRACKING_STORAGE_KEY, params.toString());
+  } catch {}
+}
+
+function getSavedTrackingParams() {
+  try {
+    return new URLSearchParams(localStorage.getItem(TRACKING_STORAGE_KEY) || window.location.search);
+  } catch {
+    return new URLSearchParams(window.location.search);
+  }
+}
+
+function appendTrackingParams(url) {
+  const target = new URL(url, window.location.href);
+  const params = getSavedTrackingParams();
+
+  params.forEach((value, key) => {
+    if (!target.searchParams.has(key)) target.searchParams.set(key, value);
+  });
+
+  return target.toString();
+}
+
+function trackMetaEvent(eventName, params = {}, options = {}) {
+  if (typeof window.fbq !== 'function') return;
+  window.fbq('track', eventName, params, options);
+}
+
+function trackMetaEventOnce(storageKey, eventName, params = {}, options = {}) {
+  try {
+    if (sessionStorage.getItem(storageKey)) return;
+    sessionStorage.setItem(storageKey, '1');
+  } catch {}
+
+  trackMetaEvent(eventName, params, options);
+}
+
 function App() {
   const [step, setStep] = useStateA('welcome');
   const [answers, setAnswers] = useStateA({
     curvatura: null, espessura: null, frequencia: null, incomodo: null,
   });
   const sec = useCountdown(14 * 60 + 33);
+
+  useEffectA(() => {
+    saveTrackingParams();
+  }, []);
 
   // Persist for refresh
   useEffectA(() => {
