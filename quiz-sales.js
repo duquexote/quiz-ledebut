@@ -98,9 +98,9 @@ function SalesPage({ onBack, onCheckout, sec }) {
   const [stock] = useStateO(23);
 
   const checkoutUrls = {
-    '1un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:1',
-    '2un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:2',
-    '3un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:3',
+    '1un': 'https://seguro.ledebut.com.br/checkout?skipToCheckout=1&tokenReference=9KYGYAMKZF:1',
+    '2un': 'https://seguro.ledebut.com.br/checkout?skipToCheckout=1&tokenReference=9KYGYAMKZF:2',
+    '3un': 'https://seguro.ledebut.com.br/checkout?skipToCheckout=1&tokenReference=9KYGYAMKZF:3',
   };
 
   const goCheckout = () => {
