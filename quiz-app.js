@@ -47,8 +47,35 @@ function trackMetaEventOnce(storageKey, eventName, params = {}, options = {}) {
   trackMetaEvent(eventName, params, options);
 }
 
+// One URL per screen, so Clarity (and the browser back/forward buttons) can
+// tell each step of the quiz apart as its own page.
+const STEP_PATHS = {
+  welcome: '/',
+  q1: '/pergunta-1',
+  q2: '/pergunta-2',
+  q3: '/pergunta-3',
+  q4: '/pergunta-4',
+  loading: '/analisando',
+  result: '/resultado',
+  offer: '/oferta',
+  sales: '/comprar',
+};
+const PATH_STEPS = Object.fromEntries(Object.entries(STEP_PATHS).map(([k, v]) => [v, k]));
+
+const STEP_TITLES = {
+  welcome: 'Quiz Cachos · Ledebut',
+  q1: 'Pergunta 1 de 4 · Quiz Cachos',
+  q2: 'Pergunta 2 de 4 · Quiz Cachos',
+  q3: 'Pergunta 3 de 4 · Quiz Cachos',
+  q4: 'Pergunta 4 de 4 · Quiz Cachos',
+  loading: 'Analisando seu cabelo · Quiz Cachos',
+  result: 'Seu resultado · Quiz Cachos',
+  offer: 'Oferta liberada · Quiz Cachos',
+  sales: 'Garanta seu Creme Cachos · Ledebut',
+};
+
 function App() {
-  const [step, setStep] = useStateA('welcome');
+  const [step, setStep] = useStateA(() => PATH_STEPS[window.location.pathname] || 'welcome');
   const [answers, setAnswers] = useStateA({
     curvatura: null, espessura: null, frequencia: null, incomodo: null,
   });
@@ -61,6 +88,7 @@ function App() {
   // Persist for refresh
   useEffectA(() => {
     try {
+      if (PATH_STEPS[window.location.pathname]) return;
       const saved = JSON.parse(localStorage.getItem('ledebut-quiz') || 'null');
       if (saved) { setStep(saved.step); setAnswers(saved.answers); }
     } catch {}
@@ -68,6 +96,28 @@ function App() {
   useEffectA(() => {
     localStorage.setItem('ledebut-quiz', JSON.stringify({ step, answers }));
   }, [step, answers]);
+
+  // Keep the URL (and Clarity's page tracking) in sync with the current screen.
+  useEffectA(() => {
+    const path = STEP_PATHS[step] || '/';
+    if (window.location.pathname !== path) {
+      window.history.pushState({ step }, '', path);
+    }
+    document.title = STEP_TITLES[step] || STEP_TITLES.welcome;
+    if (typeof window.clarity === 'function') {
+      window.clarity('set', 'quiz_step', step);
+    }
+  }, [step]);
+
+  // Support the browser's back/forward buttons.
+  useEffectA(() => {
+    const onPopState = () => {
+      const matched = PATH_STEPS[window.location.pathname];
+      if (matched) setStep(matched);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   // Scroll to top on step change
   useEffectA(() => {

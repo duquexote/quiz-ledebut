@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  site:
+    image: nginx:alpine
+    networks:
+      - takeovers
+    volumes:
+      - /opt/apps/quiz-ledebut:/usr/share/nginx/html:ro
+      - /opt/apps/quiz-ledebut/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.quiz_ledebut.entrypoints=websecure
+        - 'traefik.http.routers.quiz_ledebut.rule=Host(`quiz.ledebut.com.br`)'
+        - traefik.http.routers.quiz_ledebut.service=quiz_ledebut
+        - traefik.http.routers.quiz_ledebut.tls.certresolver=letsencryptresolver
+        - traefik.http.services.quiz_ledebut.loadbalancer.server.port=80
+
+networks:
+  takeovers:
+    external: true
