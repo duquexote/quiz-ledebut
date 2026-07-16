@@ -81,7 +81,7 @@ function OfferScreen({ onClaim, onSeeSales, sec }) {
           Quero a oferta da fábrica →
         </button>
         <p className="small" style={{ textAlign: 'center', marginTop: 10 }}>
-          🚚 Frete grátis · 🛡️ Garantia 30 dias · 💳 Em até 12x
+          🚚 Frete grátis sob consulta · 🛡️ Garantia 30 dias · 💳 Em até 12x
         </p>
       </div>
     </div>
@@ -184,7 +184,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
             originalPrice="R$ 110,00"
             price="R$ 59,99"
             priceSub="/un · total R$ 179,97"
-            sub="3x Creme Cachos 1L · Frete grátis"
+            sub="3x Creme Cachos 1L · Frete grátis sob consulta"
             ribbon="MELHOR OFERTA"
           />
         </div>
@@ -218,7 +218,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
           ))}
         </div>
         <p className="small" style={{ textAlign: 'center', marginTop: 8 }}>
-          🚚 Frete grátis no kit de 3 unidades
+          🚚 Frete grátis sob consulta no kit de 3 unidades
         </p>
       </div>
 
@@ -275,7 +275,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
           <h3 className="h3" style={{ textAlign: 'center', margin: '0 0 12px' }}>Perguntas frequentes</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <FAQ q="Funciona em todos os tipos de cacho?" a="Sim! O Creme Cachos foi desenvolvido para curvaturas 2A até 4C — onduladas, cacheadas e crespas." />
-            <FAQ q="Em quanto tempo chega?" a="Enviamos em até 24h úteis. Entrega entre 3 e 7 dias úteis para todo o Brasil, com frete grátis." />
+            <FAQ q="Em quanto tempo chega?" a="Enviamos em até 24h úteis. Entrega entre 3 e 7 dias úteis para todo o Brasil, com frete grátis sob consulta." />
             <FAQ q="E se eu não gostar?" a="Garantia de 7 dias. Não gostou, devolvemos seu dinheiro — sem pergunta." />
             <FAQ q="O produto pesa o cabelo?" a="Não. A fórmula é leve, define o cacho e dá maciez sem efeito pesado ou oleoso." />
           </div>
