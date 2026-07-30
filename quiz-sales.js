@@ -91,11 +91,14 @@ function OfferScreen({ onClaim, onSeeSales, sec }) {
 // ─────────────────────────────────────────────────────────────
 // Sales Page (after offer)
 // ─────────────────────────────────────────────────────────────
+const ORDER_BUMP_CODE = 'CA9W3YSQ53';
+
 function SalesPage({ onBack, onCheckout, sec }) {
   const sec1 = sec;
   const sec2 = sec;
   const [picked, setPicked] = useStateO('3un');
   const [stock] = useStateO(23);
+  const [showBump, setShowBump] = useStateO(false);
 
   const checkoutUrls = {
     '1un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:1',
@@ -103,16 +106,26 @@ function SalesPage({ onBack, onCheckout, sec }) {
     '3un': 'https://seguro.ledebut.com.br/r/9KYGYAMKZF:3',
   };
 
-  const goCheckout = () => {
+  const goCheckout = (withBump) => {
     trackMetaEvent('InitiateCheckout', {
       content_name: 'Cachos 1L',
       content_category: 'quiz',
       variant: picked,
+      order_bump: withBump,
       currency: 'BRL',
     });
 
-    window.open(appendTrackingParams(checkoutUrls[picked]), '_blank');
+    const url = withBump
+      ? `${checkoutUrls[picked]},${ORDER_BUMP_CODE}:1`
+      : checkoutUrls[picked];
+
+    setShowBump(false);
+    window.open(appendTrackingParams(url), '_blank');
   };
+
+  const acceptBump = () => goCheckout(true);
+  const declineBump = () => goCheckout(false);
+
   const scrollToOffer = () => document.getElementById('oferta-section').scrollIntoView({ behavior: 'smooth' });
 
   const goWhatsapp = () => {
@@ -203,7 +216,7 @@ function SalesPage({ onBack, onCheckout, sec }) {
           </div>
         </div>
 
-        <button onClick={goCheckout} className="btn-primary pulse" style={{ marginTop: 16 }}>
+        <button onClick={() => setShowBump(true)} className="btn-primary pulse" style={{ marginTop: 16 }}>
           Garantir oferta →
         </button>
 
@@ -324,6 +337,83 @@ function SalesPage({ onBack, onCheckout, sec }) {
         <p className="small" style={{ textAlign: 'center', marginTop: 28, color: 'var(--ink-400)' }}>
           © Ledebut · Compra 100% segura
         </p>
+      </div>
+
+      {showBump && (
+        <OrderBumpModal onAccept={acceptBump} onDecline={declineBump} onClose={() => setShowBump(false)} />
+      )}
+    </div>
+  );
+}
+
+function OrderBumpModal({ onAccept, onDecline, onClose }) {
+  return (
+    <div className="modal-overlay">
+      <div className="card pop-in" style={{ width: '100%', maxWidth: 380, padding: 20, position: 'relative' }}>
+
+        <button onClick={onClose} aria-label="Fechar" style={{
+          position: 'absolute', top: 14, right: 14, width: 28, height: 28, borderRadius: 999,
+          background: 'var(--ink-50)', display: 'grid', placeItems: 'center', color: 'var(--ink-700)', zIndex: 1,
+        }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <h3 className="h2" style={{ textAlign: 'center', margin: '0 28px 8px', color: 'var(--green-600)' }}>
+          Combine com 44% OFF
+        </h3>
+
+        <p className="small" style={{ textAlign: 'center', margin: '0 0 14px' }}>
+          Parabéns! Você desbloqueou um desconto extra no nosso Kit Cachos Completo:
+        </p>
+
+        <div style={{
+          padding: '10px 12px', marginBottom: 16,
+          background: 'var(--warn-bg)', border: '1px solid var(--warn-bd)',
+          borderRadius: 10, display: 'flex', gap: 8, alignItems: 'flex-start', textAlign: 'left',
+        }}>
+          <span>🔔</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--warn-fg)', lineHeight: 1.4 }}>
+            Essa oferta só aparece aqui e vai expirar quando você sair desta página
+          </span>
+        </div>
+
+        <div style={{ border: '1px solid var(--ink-200)', borderRadius: 14, padding: 10, marginBottom: 14 }}>
+          <ImgPlaceholder
+            src="public/orderbump.webp"
+            label="Kit Cachos Complementar"
+            ratio="1/1"
+            style={{ width: '100%', borderRadius: 10 }}
+          />
+        </div>
+
+        <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3, marginBottom: 8 }}>
+          Kit Cachos Complementar — Shampoo, Máscara e Reparador de Pontas
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 12 }}>
+          <span style={{ fontSize: 14, color: 'var(--ink-400)', textDecoration: 'line-through' }}>R$ 225,00</span>
+          <span style={{ fontSize: 24, fontWeight: 800, color: 'var(--ink-900)' }}>R$ 125,00</span>
+          <span style={{
+            background: 'var(--green-50)', color: 'var(--green-700)',
+            padding: '2px 8px', borderRadius: 999, fontSize: 12, fontWeight: 700,
+          }}>-44%</span>
+        </div>
+
+        <p className="small" style={{ margin: '0 0 18px' }}>
+          Rotina completa Ledebut pro cacho definido, nutrido e sem frizz: shampoo, máscara e reparador de pontas juntos pra cuidar do fio da raiz até a ponta.
+        </p>
+
+        <button onClick={onAccept} className="btn-primary pulse">
+          FINALIZAR COM 44% OFF
+        </button>
+        <button onClick={onDecline} style={{
+          width: '100%', marginTop: 10, padding: '13px 18px', textAlign: 'center',
+          background: 'white', color: 'var(--ink-700)',
+          border: '1.5px solid var(--ink-200)', borderRadius: 999,
+          fontWeight: 700, fontSize: 13,
+        }}>
+          NÃO, OBRIGADO
+        </button>
       </div>
     </div>
   );
