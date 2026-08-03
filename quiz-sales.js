@@ -347,70 +347,79 @@ function SalesPage({ onBack, onCheckout, sec }) {
 }
 
 function OrderBumpModal({ onAccept, onDecline, onClose }) {
+  useEffectO(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = original; };
+  }, []);
+
   return (
     <div className="modal-overlay">
-      <div className="card pop-in" style={{ width: '100%', maxWidth: 380, padding: 20, position: 'relative' }}>
+      <div className="card pop-in" style={{
+        width: '100%', maxWidth: 380, padding: 14, position: 'relative',
+        maxHeight: '100%', overflowY: 'auto', WebkitOverflowScrolling: 'touch',
+      }}>
 
         <button onClick={onClose} aria-label="Fechar" style={{
-          position: 'absolute', top: 14, right: 14, width: 28, height: 28, borderRadius: 999,
+          position: 'absolute', top: 8, right: 8, width: 24, height: 24, borderRadius: 999,
           background: 'var(--ink-50)', display: 'grid', placeItems: 'center', color: 'var(--ink-700)', zIndex: 1,
         }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
 
-        <h3 className="h2" style={{ textAlign: 'center', margin: '0 28px 8px', color: 'var(--green-600)' }}>
+        <h3 className="h2" style={{ textAlign: 'center', margin: '0 24px 4px', fontSize: 18, color: 'var(--green-600)' }}>
           Combine com 44% OFF
         </h3>
 
-        <p className="small" style={{ textAlign: 'center', margin: '0 0 14px' }}>
+        <p className="small" style={{ textAlign: 'center', margin: '0 0 6px', fontSize: 12, lineHeight: 1.3 }}>
           Parabéns! Você desbloqueou um desconto extra no nosso Kit Cachos Completo:
         </p>
 
         <div style={{
-          padding: '10px 12px', marginBottom: 16,
+          padding: '5px 9px', marginBottom: 6,
           background: 'var(--warn-bg)', border: '1px solid var(--warn-bd)',
-          borderRadius: 10, display: 'flex', gap: 8, alignItems: 'flex-start', textAlign: 'left',
+          borderRadius: 9, display: 'flex', gap: 6, alignItems: 'flex-start', textAlign: 'left',
         }}>
-          <span>🔔</span>
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--warn-fg)', lineHeight: 1.4 }}>
+          <span style={{ fontSize: 11 }}>🔔</span>
+          <span style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--warn-fg)', lineHeight: 1.25 }}>
             Essa oferta só aparece aqui e vai expirar quando você sair desta página
           </span>
         </div>
 
-        <div style={{ border: '1px solid var(--ink-200)', borderRadius: 14, padding: 10, marginBottom: 14 }}>
+        <div style={{ border: '1px solid var(--ink-200)', borderRadius: 12, padding: 5, marginBottom: 6 }}>
           <ImgPlaceholder
             src="public/orderbump.webp"
             label="Kit Cachos Complementar"
-            ratio="1/1"
-            style={{ width: '100%', borderRadius: 10 }}
+            ratio="14/5"
+            style={{ width: '100%', borderRadius: 8 }}
           />
         </div>
 
-        <div style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3, marginBottom: 8 }}>
+        <div style={{ fontWeight: 700, fontSize: 13.5, lineHeight: 1.2, marginBottom: 4 }}>
           Kit Cachos Complementar — Shampoo, Máscara e Reparador de Pontas
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 12 }}>
-          <span style={{ fontSize: 14, color: 'var(--ink-400)', textDecoration: 'line-through' }}>R$ 225,00</span>
-          <span style={{ fontSize: 24, fontWeight: 800, color: 'var(--ink-900)' }}>R$ 125,00</span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 5 }}>
+          <span style={{ fontSize: 12, color: 'var(--ink-400)', textDecoration: 'line-through' }}>R$ 225,00</span>
+          <span style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-900)' }}>R$ 125,00</span>
           <span style={{
             background: 'var(--green-50)', color: 'var(--green-700)',
-            padding: '2px 8px', borderRadius: 999, fontSize: 12, fontWeight: 700,
+            padding: '1px 6px', borderRadius: 999, fontSize: 10.5, fontWeight: 700,
           }}>-44%</span>
         </div>
 
-        <p className="small" style={{ margin: '0 0 18px' }}>
+        <p className="small" style={{ margin: '0 0 8px', fontSize: 11.5, lineHeight: 1.35 }}>
           Rotina completa Ledebut pro cacho definido, nutrido e sem frizz: shampoo, máscara e reparador de pontas juntos pra cuidar do fio da raiz até a ponta.
         </p>
 
-        <button onClick={onAccept} className="btn-primary pulse">
+        <button onClick={onAccept} className="btn-primary pulse" style={{ padding: '12px 18px' }}>
           FINALIZAR COM 44% OFF
         </button>
         <button onClick={onDecline} style={{
-          width: '100%', marginTop: 10, padding: '13px 18px', textAlign: 'center',
+          width: '100%', marginTop: 6, padding: '10px 18px', textAlign: 'center',
           background: 'white', color: 'var(--ink-700)',
           border: '1.5px solid var(--ink-200)', borderRadius: 999,
-          fontWeight: 700, fontSize: 13,
+          fontWeight: 700, fontSize: 12,
         }}>
           NÃO, OBRIGADO
         </button>
